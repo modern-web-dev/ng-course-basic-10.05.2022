@@ -1,1 +1,3 @@
-# ng-course-22.03.2022
+# Angular Basic Training
+
+Edition 22.03.2022
