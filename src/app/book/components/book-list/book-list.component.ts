@@ -29,6 +29,6 @@ export class BookListComponent {
   }
 
   selectBook(aBook: Book): void {
-    this.selectedBook = aBook;
+    this.selectedBook = { ...aBook };
   }
 }
