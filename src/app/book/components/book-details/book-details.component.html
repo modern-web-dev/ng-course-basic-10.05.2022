@@ -17,11 +17,9 @@
   </div>
 
   <div class="mb-5 d-flex justify-content-end gap-2">
-    <button class="btn btn-primary">Save</button>
-    <button class="btn btn-secondary">Cancel</button>
+    <button class="btn btn-primary" (click)="saveBook()">Save</button>
+    <button class="btn btn-secondary" (click)="cancelClicked.emit()">Cancel</button>
   </div>
-
-  <p>title = {{ book.title }}, author = {{ book.author }}, year = {{ book.year }}</p>
 </section>
 
 <section *ngIf="!book">

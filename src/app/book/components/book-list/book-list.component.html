@@ -5,7 +5,11 @@
       <li *ngFor="let book of books"><button class="btn btn-link" (click)="selectBook(book)">{{ book.title }}</button></li>
     </ul>
   </nav>
-  <app-book-details [book]="selectedBook" class="flex-grow-1"></app-book-details>
+  <app-book-details
+    [book]="selectedBook"
+    (bookSaved)="saveBook($event)"
+    (cancelClicked)="closeBookDetails()"
+    class="flex-grow-1"></app-book-details>
 </article>
 
 
