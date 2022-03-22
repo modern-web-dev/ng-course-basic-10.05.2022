@@ -1,0 +1,22 @@
+<h2>Book details</h2>
+
+<div>
+  <label for="title">Title</label>
+  <input id="title" type="text" [(ngModel)]="book.title">
+</div>
+
+<div>
+  <label for="author">Author</label>
+  <input id="author" type="text" [(ngModel)]="book.author">
+</div>
+
+<div>
+  <label for="year">Year</label>
+  <input id="year" type="number" [(ngModel)]="book.year">
+</div>
+
+<div>
+  <button>Save</button>
+</div>
+
+<p>title = {{ book.title }}, author = {{ book.author }}, year = {{ book.year }}</p>
