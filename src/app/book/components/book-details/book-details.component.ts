@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Book} from "../../model/book";
 
 @Component({
@@ -8,11 +8,8 @@ import {Book} from "../../model/book";
 })
 export class BookDetailsComponent {
 
-  book: Book = {
-    title: 'Solaris',
-    author: 'Stanislaw Lem',
-    year: 1960
-  };
+  @Input()
+  book: Book | undefined | null;
 
   constructor() { }
 

@@ -1,22 +1,29 @@
 <h2>Book details</h2>
 
-<div class="mb-3">
-  <label for="title" class="form-label">Title</label>
-  <input id="title" class="form-control" type="text" [(ngModel)]="book.title">
-</div>
+<section *ngIf="book">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input id="title" class="form-control" type="text" [(ngModel)]="book.title">
+  </div>
 
-<div class="mb-3">
-  <label for="author" class="form-label">Author</label>
-  <input id="author" class="form-control" type="text" [(ngModel)]="book.author">
-</div>
+  <div class="mb-3">
+    <label for="author" class="form-label">Author</label>
+    <input id="author" class="form-control" type="text" [(ngModel)]="book.author">
+  </div>
 
-<div class="mb-5">
-  <label for="year" class="form-label">Year</label>
-  <input id="year" class="form-control" type="number" [(ngModel)]="book.year">
-</div>
+  <div class="mb-5">
+    <label for="year" class="form-label">Year</label>
+    <input id="year" class="form-control" type="number" [(ngModel)]="book.year">
+  </div>
 
-<div class="mb-5">
-  <button>Save</button>
-</div>
+  <div class="mb-5 d-flex justify-content-end gap-2">
+    <button class="btn btn-primary">Save</button>
+    <button class="btn btn-secondary">Cancel</button>
+  </div>
 
-<p>title = {{ book.title }}, author = {{ book.author }}, year = {{ book.year }}</p>
+  <p>title = {{ book.title }}, author = {{ book.author }}, year = {{ book.year }}</p>
+</section>
+
+<section *ngIf="!book">
+  Please select a book.
+</section>
