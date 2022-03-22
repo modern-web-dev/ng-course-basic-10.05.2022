@@ -1,21 +1,21 @@
 <h2>Book details</h2>
 
-<div>
-  <label for="title">Title</label>
-  <input id="title" type="text" [(ngModel)]="book.title">
+<div class="mb-3">
+  <label for="title" class="form-label">Title</label>
+  <input id="title" class="form-control" type="text" [(ngModel)]="book.title">
 </div>
 
-<div>
-  <label for="author">Author</label>
-  <input id="author" type="text" [(ngModel)]="book.author">
+<div class="mb-3">
+  <label for="author" class="form-label">Author</label>
+  <input id="author" class="form-control" type="text" [(ngModel)]="book.author">
 </div>
 
-<div>
-  <label for="year">Year</label>
-  <input id="year" type="number" [(ngModel)]="book.year">
+<div class="mb-5">
+  <label for="year" class="form-label">Year</label>
+  <input id="year" class="form-control" type="number" [(ngModel)]="book.year">
 </div>
 
-<div>
+<div class="mb-5">
   <button>Save</button>
 </div>
 
