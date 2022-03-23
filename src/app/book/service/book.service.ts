@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Book} from "../model/book";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 @Injectable()
 export class BookService {
 
-  books: Book[] = [{
+  private books: Book[] = [{
     id: 1,
     title: 'Solaris',
     author: 'Stanislaw Lem',
@@ -22,9 +23,14 @@ export class BookService {
   }
   ];
 
-  constructor() { }
+  readonly books$ = new BehaviorSubject<Book[]>(this.books);
+
+  constructor() {
+    console.log('book service is created');
+  }
 
   updateBook(updatedBook: Book): void {
     this.books = this.books.map(current => current.id === updatedBook.id ? updatedBook : current);
+    this.books$.next(this.books);
   }
 }

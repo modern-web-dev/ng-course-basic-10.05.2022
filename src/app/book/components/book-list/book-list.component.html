@@ -2,7 +2,7 @@
   <nav>
     <h2>Book list</h2>
     <ul>
-      <li *ngFor="let book of bookService.books"><button class="btn btn-link" (click)="selectBook(book)">{{ book.title }}</button></li>
+      <li *ngFor="let book of bookService.books$ | async"><button class="btn btn-link" (click)="selectBook(book)">{{ book.title }}</button></li>
     </ul>
   </nav>
   <app-book-details
