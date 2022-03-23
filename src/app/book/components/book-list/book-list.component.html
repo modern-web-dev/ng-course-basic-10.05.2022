@@ -1,6 +1,6 @@
 <article class="d-flex flex-row gap-5">
   <nav>
-    <h2>Book list</h2>
+    <h3 class="book-list--title">Book list</h3>
     <ul>
       <li *ngFor="let book of books$ | async"><button class="btn btn-link" (click)="selectBook(book)">{{ book.title }}</button></li>
     </ul>
