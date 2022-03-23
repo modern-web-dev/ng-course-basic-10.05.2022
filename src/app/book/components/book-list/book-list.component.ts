@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Book} from "../../model/book";
+import {BookService} from "../../service/book.service";
 
 @Component({
   selector: 'app-book-list',
@@ -7,28 +8,9 @@ import {Book} from "../../model/book";
   styleUrls: ['./book-list.component.scss']
 })
 export class BookListComponent {
-
-  books: Book[] = [{
-    id: 1,
-    title: 'Solaris',
-    author: 'Stanislaw Lem',
-    year: 1960
-  }, {
-    id: 2,
-    title: '2001: A Space Odyssey',
-    author: 'Arthur C. Clarke',
-    year: 1968
-  }, {
-    id: 3,
-    title: 'Ubik',
-    author: 'Philip K. Dick',
-    year: 1960
-  }
-  ];
-
   selectedBook: Book | null = null;
 
-  constructor() {
+  constructor(public readonly bookService: BookService) {
   }
 
   selectBook(aBook: Book): void {
@@ -36,7 +18,7 @@ export class BookListComponent {
   }
 
   saveBook(updatedBook: Book): void {
-    this.books = this.books.map(current => current.id === updatedBook.id ? updatedBook : current);
+    this.bookService.updateBook(updatedBook);
     this.selectedBook = null;
   }
 
