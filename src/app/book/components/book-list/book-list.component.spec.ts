@@ -1,20 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BookListComponent } from './book-list.component';
-import {BookService} from "../../service/book.service";
-import {SpinnerService} from "../../../shared/service/spinner.service";
 import {Book} from "../../model/book";
+import createSpy = jasmine.createSpy;
+import {BehaviorSubject} from "rxjs";
 
 describe('BookListComponent', () => {
 
   let component: BookListComponent;
-  let bookService: BookService;
-  let spinnerService: SpinnerService
+  let bookService: any;
+  let spinnerService: any
   let aBook: Book;
 
   beforeEach(() => {
-    bookService = new BookService();
-    spinnerService = new SpinnerService();
+    bookService = {
+      books$: new BehaviorSubject<Book[]>([]),
+      updateBook: createSpy()
+    };
+    spinnerService = {
+      show: createSpy()
+    };
     component = new BookListComponent(bookService, spinnerService);
     aBook = {
       id: 0,
@@ -37,13 +40,11 @@ describe('BookListComponent', () => {
   });
 
   it("saving book that is not selected is kind of weird", () => {
-    // given
-    spyOn(bookService, "updateBook").and.callThrough();
     // when
     component.saveBook(aBook);
     // then
     expect(component.selectedBook).toBeFalsy();
-    expect(spinnerService.showSpinner).toBeTruthy();
+    expect(spinnerService.show).toHaveBeenCalledTimes(2);
     expect(bookService.updateBook).toHaveBeenCalledWith(aBook);
   });
 });
