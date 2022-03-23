@@ -8,7 +8,6 @@ import {SpinnerService} from "./shared/service/spinner.service";
 })
 export class AppComponent {
   title = 'This is our demo app';
-  counter = 0;
 
   constructor(public readonly spinnerService: SpinnerService) {
   }
