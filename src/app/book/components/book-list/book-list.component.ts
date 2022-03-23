@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Book} from "../../model/book";
 import {BookService} from "../../service/book.service";
+import {delay, Observable, take, tap} from "rxjs";
+import {SpinnerService} from "../../../shared/service/spinner.service";
 
 @Component({
   selector: 'app-book-list',
@@ -10,8 +12,14 @@ import {BookService} from "../../service/book.service";
 })
 export class BookListComponent {
   selectedBook: Book | null = null;
+  readonly books$: Observable<Book[]>;
 
-  constructor(public readonly bookService: BookService) {
+  constructor(private readonly bookService: BookService, private readonly spinnerService: SpinnerService) {
+    this.spinnerService.show();
+    this.books$ = bookService.books$.pipe(
+      delay(1000),
+      tap(() => this.spinnerService.hide())
+    );
     console.log('Book list is created');
   }
 
@@ -20,6 +28,7 @@ export class BookListComponent {
   }
 
   saveBook(updatedBook: Book): void {
+    this.spinnerService.show();
     this.bookService.updateBook(updatedBook);
     this.selectedBook = null;
   }

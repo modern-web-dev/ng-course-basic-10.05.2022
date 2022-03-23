@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {SpinnerService} from "./shared/service/spinner.service";
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'This is our demo app';
   counter = 0;
+
+  constructor(public readonly spinnerService: SpinnerService) {
+  }
 }
