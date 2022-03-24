@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {Book} from "../../model/book";
 import {FormControl, FormGroup} from "@angular/forms";
 
@@ -7,7 +17,7 @@ import {FormControl, FormGroup} from "@angular/forms";
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.scss']
 })
-export class BookDetailsComponent {
+export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
   readonly bookForm: FormGroup;
 
@@ -17,21 +27,7 @@ export class BookDetailsComponent {
   private readonly year: FormControl;
 
   @Input()
-  get book() {
-    return this._book;
-  }
-  set book(value: Book | undefined | null) {
-    this._book = value ? { ...value } : value;
-    // form controls init
-    if (value) {
-      // this.title.setValue(value.title);
-      // this.author.setValue(value.author);
-      // this.year.setValue(value.year);
-      this.bookForm.setValue({...value});
-    }
-  }
-
-  private _book: Book | undefined | null;
+  book: Book | undefined | null;
 
   @Output()
   readonly bookSaved = new EventEmitter<Book>();
@@ -40,6 +36,9 @@ export class BookDetailsComponent {
   readonly cancelClicked = new EventEmitter();
 
   constructor() {
+
+    console.log(`BookDetailsComponent constructor phase, book=${this.book}`)
+
     this.id = new FormControl();
     const title = new FormControl();
     this.title = title;
@@ -52,6 +51,30 @@ export class BookDetailsComponent {
       author: this.author,
       year: this.year
     });
+  }
+
+  ngOnInit(): void {
+    console.log(`BookDetailsComponent onInit phase, book=${this.book}`);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(`BookDetailsComponent onChanges phase, book=${this.book}`);
+    console.log(changes);
+    // form controls init
+    if (this.book && changes['book']) {
+      // this.title.setValue(value.title);
+      // this.author.setValue(value.author);
+      // this.year.setValue(value.year);
+      this.bookForm.setValue(this.book);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    console.log(`BookDetailsComponent afterViewInit phase`);
+  }
+
+  ngOnDestroy(): void {
+    console.log('BookDetailsComponent onDestroy phase');
   }
 
   saveBook() {

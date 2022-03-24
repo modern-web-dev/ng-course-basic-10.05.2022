@@ -2,7 +2,7 @@
 
 <section *ngIf="book; else selectBook" id="book-editor">
 
-  <form [formGroup]="bookForm">
+  <form [formGroup]="bookForm" (ngSubmit)="saveBook()">
     <input type="hidden" name="id" formControlName="id">
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="mb-5 d-flex justify-content-end gap-2">
-      <button class="btn btn-primary" (click)="saveBook()">Save</button>
+      <button type="submit" class="btn btn-primary">Save</button>
       <button class="btn btn-secondary" (click)="cancelClicked.emit()">Cancel</button>
     </div>
   </form>
