@@ -28,6 +28,7 @@ export class BookListComponent {
   }
 
   saveBook(updatedBook: Book): void {
+    console.log(updatedBook);
     this.spinnerService.show();
     this.bookService.updateBook(updatedBook);
     this.selectedBook = null;

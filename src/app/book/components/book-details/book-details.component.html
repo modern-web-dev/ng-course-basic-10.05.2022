@@ -1,25 +1,29 @@
 <h2>Book details</h2>
 
 <section *ngIf="book; else selectBook" id="book-editor">
-  <div class="mb-3">
-    <label for="title" class="form-label">Title</label>
-    <input id="title" class="form-control" type="text" [(ngModel)]="book.title">
-  </div>
 
-  <div class="mb-3">
-    <label for="author" class="form-label">Author</label>
-    <input id="author" class="form-control" type="text" [(ngModel)]="book.author">
-  </div>
+  <form [formGroup]="bookForm">
+    <input type="hidden" name="id" formControlName="id">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input id="title" class="form-control" type="text" formControlName="title">
+    </div>
 
-  <div class="mb-5">
-    <label for="year" class="form-label">Year</label>
-    <input id="year" class="form-control" type="number" [(ngModel)]="book.year">
-  </div>
+    <div class="mb-3">
+      <label for="author" class="form-label">Author</label>
+      <input id="author" class="form-control" type="text" formControlName="author">
+    </div>
 
-  <div class="mb-5 d-flex justify-content-end gap-2">
-    <button class="btn btn-primary" (click)="saveBook()">Save</button>
-    <button class="btn btn-secondary" (click)="cancelClicked.emit()">Cancel</button>
-  </div>
+    <div class="mb-5">
+      <label for="year" class="form-label">Year</label>
+      <input id="year" class="form-control" type="number" formControlName="year">
+    </div>
+
+    <div class="mb-5 d-flex justify-content-end gap-2">
+      <button class="btn btn-primary" (click)="saveBook()">Save</button>
+      <button class="btn btn-secondary" (click)="cancelClicked.emit()">Cancel</button>
+    </div>
+  </form>
 </section>
 
 <ng-template #selectBook>

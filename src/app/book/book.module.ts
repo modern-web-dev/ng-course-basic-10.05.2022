@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { BookListComponent } from './components/book-list/book-list.component';
 import {BookService} from "./service/book.service";
 
@@ -16,7 +16,8 @@ import {BookService} from "./service/book.service";
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     BookService
