@@ -15,6 +15,12 @@ describe('BookDetailsComponent', () => {
     const getBookEditor = () => nativeElement.querySelector('#book-editor') as HTMLElement;
     const getNoBookPanel = () => nativeElement.querySelector('#please-select-a-book') as HTMLElement;
     const getInputField = (id: string) => nativeElement.querySelector(`input#${id}`) as HTMLInputElement;
+    const setInputField = (id: string, value: string) => {
+      const inputField = getInputField(id);
+      inputField.value = value;
+      inputField.dispatchEvent(new Event('input'));
+    };
+    const getSaveButton = () => nativeElement.querySelector('button.btn-primary') as HTMLButtonElement;
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -64,6 +70,29 @@ describe('BookDetailsComponent', () => {
       expect(getInputField('title')!.value).toBe(aBook.title);
       expect(getInputField('author')!.value).toBe(aBook.author);
       expect(getInputField('year')!.value).toBe(`${aBook.year}`);
+    });
+
+    it('selected book can be edited and saved; once saved, a new values should be emited', async () => {
+      // given
+      const newValue: Book = {
+        id: aBook.id,
+        title: 'New title',
+        author: 'New author',
+        year: 1999
+      };
+      let savedBook: Book | null = null;
+      component.bookSaved.subscribe(value => savedBook = value);
+      component.book = aBook;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // when
+      setInputField('title', newValue.title);
+      setInputField('author', newValue.author);
+      setInputField('year', `${newValue.year}`);
+      getSaveButton().click();
+      // then
+      expect(savedBook).toBeTruthy();
+      expect(savedBook!).toEqual(newValue);
     });
   });
 });
