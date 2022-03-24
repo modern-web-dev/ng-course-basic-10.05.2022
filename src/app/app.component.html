@@ -1,6 +1,6 @@
 <h1>{{ title }}</h1>
 <div class="wrapper">
-  <app-book-list></app-book-list>
+  <router-outlet></router-outlet>
 </div>
 <div class="text-center" *ngIf="spinnerService.showSpinner">
   <div class="spinner-border" role="status">
