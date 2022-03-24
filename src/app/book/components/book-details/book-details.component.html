@@ -1,6 +1,6 @@
 <h2>Book details</h2>
 
-<section *ngIf="book">
+<section *ngIf="book; else selectBook" id="book-editor">
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
     <input id="title" class="form-control" type="text" [(ngModel)]="book.title">
@@ -22,6 +22,8 @@
   </div>
 </section>
 
-<section *ngIf="!book">
-  Please select a book.
-</section>
+<ng-template #selectBook>
+  <section id="please-select-a-book">
+    Please select a book.
+  </section>
+</ng-template>

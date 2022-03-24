@@ -24,7 +24,8 @@ export class BookDetailsComponent {
   @Output()
   readonly cancelClicked = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+  }
 
   saveBook() {
     if (this.book) {
