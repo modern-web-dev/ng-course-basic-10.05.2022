@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookDetailsComponent } from './book-details.component';
 import {Book} from "../../model/book";
-import {FormsModule} from "@angular/forms";
+import { ReactiveFormsModule} from "@angular/forms";
+import {SimpleChange} from "@angular/core";
 
 describe('BookDetailsComponent', () => {
 
@@ -25,7 +26,7 @@ describe('BookDetailsComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [BookDetailsComponent],
-        imports: [FormsModule]
+        imports: [ReactiveFormsModule]
       })
         .compileComponents();
     });
@@ -48,31 +49,21 @@ describe('BookDetailsComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('initially no book is selected so appropriate message is shown', () => {
-      const noBookPanel = getNoBookPanel();
-      expect(noBookPanel).toBeTruthy();
-      expect(noBookPanel!.textContent).toContain('Please select a book.');
-
-      expect(getBookEditor()).toBeFalsy();
-    });
-
-    it('once book is given via binding, it is displayed', async () => {
+    it('once book is given via binding, it is displayed',  () => {
       // given
       component.book = aBook;
       // when
-      fixture.detectChanges();
+      component.ngOnChanges({ book: new SimpleChange(undefined, aBook, false)});
       // then
       const bookEditor = getBookEditor();
       expect(bookEditor).toBeTruthy();
-
-      await fixture.whenStable();
 
       expect(getInputField('title')!.value).toBe(aBook.title);
       expect(getInputField('author')!.value).toBe(aBook.author);
       expect(getInputField('year')!.value).toBe(`${aBook.year}`);
     });
 
-    it('selected book can be edited and saved; once saved, a new values should be emited', async () => {
+    it('selected book can be edited and saved; once saved, a new values should be emited',  () => {
       // given
       const newValue: Book = {
         id: aBook.id,
@@ -83,8 +74,7 @@ describe('BookDetailsComponent', () => {
       let savedBook: Book | null = null;
       component.bookSaved.subscribe(value => savedBook = value);
       component.book = aBook;
-      fixture.detectChanges();
-      await fixture.whenStable();
+      component.ngOnChanges({ book: new SimpleChange(undefined, aBook, false)});
       // when
       setInputField('title', newValue.title);
       setInputField('author', newValue.author);

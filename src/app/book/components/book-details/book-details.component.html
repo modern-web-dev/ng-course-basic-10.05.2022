@@ -1,7 +1,6 @@
 <h2>Book details</h2>
 
-<section *ngIf="book; else selectBook" id="book-editor">
-
+<section id="book-editor">
   <form [formGroup]="bookForm" (ngSubmit)="saveBook()">
     <input type="hidden" name="id" formControlName="id">
     <div class="mb-3">
@@ -25,9 +24,3 @@
     </div>
   </form>
 </section>
-
-<ng-template #selectBook>
-  <section id="please-select-a-book">
-    Please select a book.
-  </section>
-</ng-template>

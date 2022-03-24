@@ -16,7 +16,6 @@ import {BookService} from "./service/book.service";
   ],
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule
   ],
   providers: [
