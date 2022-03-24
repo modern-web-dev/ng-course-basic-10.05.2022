@@ -3,6 +3,7 @@ import {Book} from "../../model/book";
 import {BookService} from "../../service/book.service";
 import {delay, Observable, take, tap} from "rxjs";
 import {SpinnerService} from "../../../shared/service/spinner.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-book-list',
@@ -11,10 +12,13 @@ import {SpinnerService} from "../../../shared/service/spinner.service";
   providers: []
 })
 export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-  selectedBook: Book | null = null;
   readonly books$: Observable<Book[]>;
 
-  constructor(private readonly bookService: BookService, private readonly spinnerService: SpinnerService) {
+  constructor(
+    private readonly bookService: BookService,
+    private readonly spinnerService: SpinnerService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute) {
 
     console.log(`BookListComponent constructor phase`);
 
@@ -42,18 +46,9 @@ export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     console.log('BookListComponent onDestroy phase');
   }
 
-  selectBook(aBook: Book): void {
-    this.selectedBook = { ...aBook };
-  }
-
-  saveBook(updatedBook: Book): void {
-    console.log(updatedBook);
-    this.spinnerService.show();
-    this.bookService.updateBook(updatedBook);
-    this.selectedBook = null;
-  }
-
-  closeBookDetails(): void {
-    this.selectedBook = null;
+  async selectBook(aBook: Book) {
+    await this.router.navigate(
+      ['edit'],
+      { relativeTo: this.activatedRoute, state: { book: aBook } });
   }
 }

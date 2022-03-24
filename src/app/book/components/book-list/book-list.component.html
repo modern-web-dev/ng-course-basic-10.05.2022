@@ -2,21 +2,14 @@
   <nav>
     <h3 class="book-list--title">Book list</h3>
     <ul>
-      <li *ngFor="let book of books$ | async"><button class="btn btn-link" (click)="selectBook(book)">{{ book.title }}</button></li>
+      <li *ngFor="let book of books$ | async">
+        <button class="btn btn-link" (click)="selectBook(book)">{{ book.title }}</button>
+      </li>
     </ul>
     <div class="mt-3">
       <a [routerLink]="['..']">Go back</a>
     </div>
   </nav>
-  <app-book-details
-    *ngIf="selectedBook; else pleaseSelect"
-    [book]="selectedBook"
-    (bookSaved)="saveBook($event)"
-    (cancelClicked)="closeBookDetails()"
-    class="flex-grow-1"></app-book-details>
-  <ng-template #pleaseSelect>
-    <section>Please select a book.</section>
-  </ng-template>
 </article>
 
 
