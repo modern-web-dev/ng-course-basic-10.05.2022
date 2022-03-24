@@ -79,6 +79,7 @@ describe('BookDetailsComponent', () => {
       setInputField('title', newValue.title);
       setInputField('author', newValue.author);
       setInputField('year', `${newValue.year}`);
+      fixture.detectChanges();
       getSaveButton().click();
       // then
       expect(savedBook).toBeTruthy();

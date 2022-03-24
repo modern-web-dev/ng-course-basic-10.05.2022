@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import {BookListComponent} from "./book/components/book-list/book-list.component";
+import {BookService} from "./book/service/book.service";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -9,8 +11,11 @@ describe('AppComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        AppComponent
+        AppComponent, BookListComponent
       ],
+      providers: [
+        BookService
+      ]
     }).compileComponents();
   });
 

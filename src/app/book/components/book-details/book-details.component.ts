@@ -10,7 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {Book} from "../../model/book";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-book-details',
@@ -40,10 +40,13 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
     console.log(`BookDetailsComponent constructor phase, book=${this.book}`)
 
     this.id = new FormControl();
-    const title = new FormControl();
+    const title = new FormControl('', [Validators.required, Validators.maxLength(30)]);
     this.title = title;
-    this.author = new FormControl();
-    this.year = new FormControl();
+    this.author = new FormControl('', [Validators.required, Validators.maxLength(30)]);
+    this.year = new FormControl('', [
+      Validators.required,
+      Validators.min(1800),
+      Validators.max(2022)]);
 
     this.bookForm = new FormGroup({
       id: this.id,

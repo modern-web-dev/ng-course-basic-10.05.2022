@@ -6,20 +6,29 @@
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
       <input id="title" class="form-control" type="text" formControlName="title">
+      <div class="invalid-feedback">
+        Please provide Title up to 30 characters.
+      </div>
     </div>
 
     <div class="mb-3">
       <label for="author" class="form-label">Author</label>
       <input id="author" class="form-control" type="text" formControlName="author">
+      <div class="invalid-feedback">
+        Please provide Author up to 30 characters.
+      </div>
     </div>
 
     <div class="mb-5">
       <label for="year" class="form-label">Year</label>
       <input id="year" class="form-control" type="number" formControlName="year">
+      <div class="invalid-feedback">
+        Please provide Year between 1800 and 2022.
+      </div>
     </div>
 
     <div class="mb-5 d-flex justify-content-end gap-2">
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary" [disabled]="bookForm.pristine || bookForm.invalid">Save</button>
       <button class="btn btn-secondary" (click)="cancelClicked.emit()">Cancel</button>
     </div>
   </form>
