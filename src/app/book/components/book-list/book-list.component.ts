@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Book} from "../../model/book";
 import {BookService} from "../../service/book.service";
-import {debounceTime, firstValueFrom, Subscription, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, firstValueFrom, Subscription, switchMap, tap} from "rxjs";
 import {SpinnerService} from "../../../shared/service/spinner.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
@@ -25,13 +25,16 @@ export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     private readonly activatedRoute: ActivatedRoute) {
 
     console.log(`BookListComponent constructor phase`);
+
     this.search = new FormControl();
+
     this.subscription = this.search.valueChanges.pipe(
-      debounceTime(500),
-      tap(value => console.log(value))
-    ).subscribe(async query => {
-      this.books = (await firstValueFrom(this.bookService.findBooks(query)))!;
-    });
+      debounceTime(500), // do not query more often than 500ms
+      distinctUntilChanged(), // do not query twice for the same query
+      filter(query => query.length > 1), // more than 1 chars needed
+      tap(value => console.log(value)), // just log down the query (debug)
+      switchMap(query => this.bookService.findBooks(query)) // just convert query to Book[]
+    ).subscribe(books => this.books = books);
 
     this.books = activatedRoute.snapshot.data['books'];
   }
