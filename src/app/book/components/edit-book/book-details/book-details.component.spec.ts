@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookDetailsComponent } from './book-details.component';
-import {Book} from "../../model/book";
 import { ReactiveFormsModule} from "@angular/forms";
 import {SimpleChange} from "@angular/core";
+import {Book} from "../../../model/book";
 
 describe('BookDetailsComponent', () => {
 

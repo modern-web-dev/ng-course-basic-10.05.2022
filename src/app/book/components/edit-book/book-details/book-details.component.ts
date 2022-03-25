@@ -9,8 +9,8 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {Book} from "../../model/book";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Book} from "../../../model/book";
 
 @Component({
   selector: 'app-book-details',
