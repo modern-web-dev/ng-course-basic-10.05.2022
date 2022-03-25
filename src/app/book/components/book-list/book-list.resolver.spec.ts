@@ -2,7 +2,7 @@ import {TestBed} from "@angular/core/testing";
 import {BookService} from "../../service/book.service";
 import {BookListResolver} from "./book-list.resolver";
 import {Book} from "../../model/book";
-import {of} from "rxjs";
+import {firstValueFrom, of} from "rxjs";
 
 describe('BookListResolver', () => {
 
@@ -37,7 +37,7 @@ describe('BookListResolver', () => {
     const state: any = {};
     const resolved = bookListResolver.resolve(route, state);
     // then
-    const resolvedBooks = await resolved.toPromise();
+    const resolvedBooks = await firstValueFrom(resolved);
     expect(resolvedBooks).toBeTruthy();
     expect(resolvedBooks).toHaveSize(1);
     expect(resolvedBooks![0]).toEqual(books[0]);

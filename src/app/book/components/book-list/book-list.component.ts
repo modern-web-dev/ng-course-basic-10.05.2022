@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Book} from "../../model/book";
 import {BookService} from "../../service/book.service";
-import {debounceTime, Subscription, tap} from "rxjs";
+import {debounceTime, firstValueFrom, Subscription, tap} from "rxjs";
 import {SpinnerService} from "../../../shared/service/spinner.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
@@ -30,8 +30,9 @@ export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDe
       debounceTime(500),
       tap(value => console.log(value))
     ).subscribe(async query => {
-      this.books = (await this.bookService.findBooks(query).toPromise())!;
+      this.books = (await firstValueFrom(this.bookService.findBooks(query)))!;
     });
+
     this.books = activatedRoute.snapshot.data['books'];
   }
 
