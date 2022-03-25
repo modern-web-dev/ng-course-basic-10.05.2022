@@ -33,4 +33,9 @@ export class BookService {
     this.books = this.books.map(current => current.id === updatedBook.id ? updatedBook : current);
     this.books$.next(this.books);
   }
+
+  getBookById(id: number): Book | undefined {
+    const bookId = this.books.findIndex(value => value.id === id);
+    return bookId >= 0 ? this.books[bookId] : undefined;
+  }
 }

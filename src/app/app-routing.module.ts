@@ -13,10 +13,10 @@ const routes: Routes = [
   },
   {
     path: 'books',
-    component: BookListComponent
+    component: BookListComponent,
   },
   {
-    path: 'books/edit',
+    path: 'books/:bookId',
     component: EditBookComponent,
     resolve: {
       book: BookResolver

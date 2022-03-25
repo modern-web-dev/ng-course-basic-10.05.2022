@@ -21,6 +21,9 @@ export class EditBookComponent {
 
     const state = this.activatedRoute.snapshot.data['book'];
     this.book = state ? state as Book : undefined;
+    if (!this.book) {
+      this.goBack();
+    }
   }
 
   async goBack() {

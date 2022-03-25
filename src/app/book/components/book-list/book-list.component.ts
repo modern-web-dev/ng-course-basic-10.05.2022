@@ -47,8 +47,6 @@ export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDe
   }
 
   async selectBook(aBook: Book) {
-    await this.router.navigate(
-      ['edit'],
-      { relativeTo: this.activatedRoute, state: { book: aBook } });
+    await this.router.navigate([aBook.id], { relativeTo: this.activatedRoute });
   }
 }
