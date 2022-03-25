@@ -1,9 +1,10 @@
 import {AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Book} from "../../model/book";
 import {BookService} from "../../service/book.service";
-import {delay, Observable, take, tap} from "rxjs";
+import {debounceTime, Subscription, tap} from "rxjs";
 import {SpinnerService} from "../../../shared/service/spinner.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-book-list',
@@ -13,7 +14,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
-  readonly books: Book[];
+  books: Book[];
+  readonly search: FormControl;
+  private readonly subscription: Subscription;
 
   constructor(
     private readonly bookService: BookService,
@@ -22,6 +25,13 @@ export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     private readonly activatedRoute: ActivatedRoute) {
 
     console.log(`BookListComponent constructor phase`);
+    this.search = new FormControl();
+    this.subscription = this.search.valueChanges.pipe(
+      debounceTime(500),
+      tap(value => console.log(value))
+    ).subscribe(async query => {
+      this.books = (await this.bookService.findBooks(query).toPromise())!;
+    });
     this.books = activatedRoute.snapshot.data['books'];
   }
 
@@ -40,9 +50,10 @@ export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDe
 
   ngOnDestroy(): void {
     console.log('BookListComponent onDestroy phase');
+    this.subscription.unsubscribe();
   }
 
   async selectBook(aBook: Book) {
-    await this.router.navigate([aBook.id], { relativeTo: this.activatedRoute });
+    await this.router.navigate([aBook.id], {relativeTo: this.activatedRoute});
   }
 }

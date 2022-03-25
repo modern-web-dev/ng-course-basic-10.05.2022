@@ -23,4 +23,8 @@ export class BookService {
   getAllBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(`${HTTP_PREFIX}`);
   }
+
+  findBooks(query: string): Observable<Book[]> {
+    return this.http.get<Book[]>(`${HTTP_PREFIX}?q=${query}`);
+  }
 }
