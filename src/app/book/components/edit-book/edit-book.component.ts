@@ -19,12 +19,8 @@ export class EditBookComponent {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute) {
 
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state && state['book']) {
-      this.book = state['book'];
-    } else {
-      this.goBack();
-    }
+    const state = this.activatedRoute.snapshot.data['book'];
+    this.book = state ? state as Book : undefined;
   }
 
   async goBack() {
