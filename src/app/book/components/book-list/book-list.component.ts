@@ -12,7 +12,8 @@ import {ActivatedRoute, Router} from "@angular/router";
   providers: []
 })
 export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-  readonly books$: Observable<Book[]>;
+
+  readonly books: Book[];
 
   constructor(
     private readonly bookService: BookService,
@@ -21,12 +22,7 @@ export class BookListComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     private readonly activatedRoute: ActivatedRoute) {
 
     console.log(`BookListComponent constructor phase`);
-
-    this.spinnerService.show();
-    this.books$ = bookService.books$.pipe(
-      delay(1000),
-      tap(() => this.spinnerService.hide())
-    );
+    this.books = activatedRoute.snapshot.data['books'];
   }
 
   ngOnInit(): void {

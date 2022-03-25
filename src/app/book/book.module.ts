@@ -6,6 +6,7 @@ import {BookService} from "./service/book.service";
 import {RouterModule} from "@angular/router";
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 import {BookDetailsComponent} from "./components/edit-book/book-details/book-details.component";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {BookDetailsComponent} from "./components/edit-book/book-details/book-det
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   providers: [
     BookService

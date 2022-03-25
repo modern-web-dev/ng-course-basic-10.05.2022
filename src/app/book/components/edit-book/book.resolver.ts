@@ -5,6 +5,7 @@ import {
 } from '@angular/router';
 import {Book} from "../../model/book";
 import {BookService} from "../../service/book.service";
+import {Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class BookResolver implements Resolve<Book | undefined> {
   constructor(private readonly router: Router, private readonly bookService: BookService) {
   }
 
-  resolve(route: ActivatedRouteSnapshot): Book | undefined {
+  resolve(route: ActivatedRouteSnapshot): Observable<Book | undefined> {
     const bookIdStr = route.paramMap.get("bookId");
     if (bookIdStr) {
       const bookId = parseInt(bookIdStr);
@@ -22,6 +23,6 @@ export class BookResolver implements Resolve<Book | undefined> {
         return this.bookService.getBookById(bookId);
       }
     }
-    return undefined;
+    return of(undefined);
   }
 }

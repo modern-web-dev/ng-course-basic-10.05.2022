@@ -5,6 +5,7 @@ import {NotFoundPageComponent} from "./shared/component/not-found-page/not-found
 import {BookListComponent} from "./book/components/book-list/book-list.component";
 import {EditBookComponent} from "./book/components/edit-book/edit-book.component";
 import {BookResolver} from "./book/components/edit-book/book.resolver";
+import {BookListResolver} from "./book/components/book-list/book-list.resolver";
 
 const routes: Routes = [
   {
@@ -14,6 +15,9 @@ const routes: Routes = [
   {
     path: 'books',
     component: BookListComponent,
+    resolve: {
+      books: BookListResolver
+    }
   },
   {
     path: 'books/:bookId',

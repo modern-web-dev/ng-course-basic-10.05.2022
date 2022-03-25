@@ -33,7 +33,8 @@ export class EditBookComponent {
   async saveBook(updatedBook: Book) {
     console.log(updatedBook);
     this.spinnerService.show();
-    this.bookService.updateBook(updatedBook);
+    await this.bookService.updateBook(updatedBook).toPromise();
+    this.spinnerService.hide();
     await this.goBack();
   }
 }
