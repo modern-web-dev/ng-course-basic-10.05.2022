@@ -6,10 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'foo bar';
-  counter = 0;
-
-  increment() {
-    this.counter++;
-  }
 }
