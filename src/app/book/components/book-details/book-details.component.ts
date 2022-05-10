@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Book} from "../../model/book";
 
 @Component({
@@ -11,17 +11,19 @@ export class BookDetailsComponent {
   @Input()
   book: Book | undefined;
 
+  @Output()
+  readonly saveClicked = new EventEmitter<Book>();
+
+  @Output()
+  readonly cancelClicked = new EventEmitter();
+
   constructor() { }
 
   cancel(): void {
-    this.book = {
-      title: 'Solaris',
-      author: 'Stanislaw Lem',
-      publishYear: 1960
-    };
+    this.cancelClicked.emit();
   }
 
   save(): void {
-    console.log(this.book);
+    this.saveClicked.emit(this.book);
   }
 }

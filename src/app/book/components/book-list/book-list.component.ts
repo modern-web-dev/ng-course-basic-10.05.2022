@@ -30,4 +30,12 @@ export class BookListComponent {
   selectBook(book: Book): void {
     this.selectedBook = { ...book };
   }
+
+  cancel(): void {
+    this.selectedBook = undefined;
+  }
+
+  saveBook(book: Book): void {
+    console.log(book);
+  }
 }
