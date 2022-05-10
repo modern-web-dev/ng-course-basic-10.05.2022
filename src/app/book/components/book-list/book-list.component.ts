@@ -28,6 +28,6 @@ export class BookListComponent {
   }
 
   selectBook(book: Book): void {
-    this.selectedBook = book;
+    this.selectedBook = { ...book };
   }
 }
