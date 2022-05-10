@@ -9,7 +9,14 @@ import {Book} from "../../model/book";
 export class BookDetailsComponent {
 
   @Input()
-  book: Book | undefined;
+  get book() {
+    return this.internalBook;
+  }
+  set book(value: Book | undefined) {
+    this.internalBook = value !== undefined ? {...value} : undefined;
+  }
+
+  private internalBook: Book | undefined;
 
   @Output()
   readonly saveClicked = new EventEmitter<Book>();
@@ -24,6 +31,6 @@ export class BookDetailsComponent {
   }
 
   save(): void {
-    this.saveClicked.emit(this.book);
+    this.saveClicked.emit(this.internalBook);
   }
 }

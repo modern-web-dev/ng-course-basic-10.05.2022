@@ -9,14 +9,17 @@ import {Book} from "../../model/book";
 export class BookListComponent {
 
   books: Book[] = [{
+    id: 1,
     title: 'Solaris',
     author: 'Stanislaw Lem',
     publishYear: 1960
   }, {
+    id: 2,
     title: '2001: A Space Odyssey',
     author: 'Arthur C. Clarke',
     publishYear: 1968
   }, {
+    id: 3,
     title: 'Bladerunner',
     author: 'Philip K. Dick',
     publishYear: 1970
@@ -28,7 +31,7 @@ export class BookListComponent {
   }
 
   selectBook(book: Book): void {
-    this.selectedBook = { ...book };
+    this.selectedBook = book;
   }
 
   cancel(): void {
@@ -36,6 +39,7 @@ export class BookListComponent {
   }
 
   saveBook(book: Book): void {
-    console.log(book);
+    this.books = this.books.map(current => current.id === book.id ? book : current);
+    this.selectedBook = undefined;
   }
 }
