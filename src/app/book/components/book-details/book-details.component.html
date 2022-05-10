@@ -1,4 +1,4 @@
-<section class="content">
+<section class="content" *ngIf="book; else noBook">
   <div>
     <label for="title" class="form-label">Title</label>
     <input type="text" id="title" class="form-control" [(ngModel)]="book.title">
@@ -23,3 +23,9 @@
     published in <code>{{ book.publishYear }}</code>.
   </p>
 </section>
+
+<ng-template #noBook>
+  <section>
+    Please select a book.
+  </section>
+</ng-template>
