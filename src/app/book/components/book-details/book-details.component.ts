@@ -21,4 +21,19 @@ export class BookDetailsComponent {
 
   constructor() { }
 
+  cancel(): void {
+    this.book = {
+      title: 'Solaris',
+      author: 'Stanislaw Lem',
+      publishYear: 1960
+    };
+  }
+
+  save(): void {
+    console.log(this.book);
+  }
+
+  updateYear($event: string): void {
+    this.book.publishYear = Number.parseInt($event);
+  }
 }

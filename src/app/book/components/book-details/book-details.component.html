@@ -1,1 +1,19 @@
-<p>book-details works!</p>
+<div>
+  <label for="title">Title</label>
+  <input type="text" id="title" [(ngModel)]="book.title">
+</div>
+<div>
+  <label for="author">Author</label>
+  <input type="text" id="author" [(ngModel)]="book.author">
+</div>
+<div>
+  <label for="year">Year</label>
+  <input type="text" id="year" [(ngModel)]="book.publishYear">
+</div>
+<button (click)="save()">Save</button>
+<button (click)="cancel()">Cancel</button>
+<p>
+  Here is our book: "{{ book.title }}"
+  of <em>{{ book.author }}</em>
+  published in <code>{{ book.publishYear }}</code>.
+</p>
