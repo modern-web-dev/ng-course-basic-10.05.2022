@@ -2,7 +2,7 @@ import { BookListComponent } from './book-list.component';
 import {SpinnerService} from "../../../shared/services/spinner.service";
 import {BookService} from "../../services/book.service";
 import {Book} from "../../model/book";
-import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {ComponentFixture, fakeAsync, TestBed, tick} from "@angular/core/testing";
 import {BookDetailsComponent} from "../book-details/book-details.component";
 
 describe('BookListComponent', () => {
@@ -11,13 +11,22 @@ describe('BookListComponent', () => {
   describe('[DOM]', () => {
 
     let fixture: ComponentFixture<BookListComponent>;
-    let nativeElement: HTMLElement
+    let nativeElement: HTMLElement;
+    let spinnerServiceMock: any;
 
     beforeEach(async () => {
+      spinnerServiceMock = {
+        show: jasmine.createSpy(),
+        hide: jasmine.createSpy()
+      };
+
       await TestBed.configureTestingModule({
         declarations: [BookListComponent, BookDetailsComponent],
         imports: [],
-        providers: [BookService]
+        providers: [
+          BookService,
+          { provide: SpinnerService, useValue: spinnerServiceMock}
+        ]
       }).compileComponents();
     });
 
@@ -37,13 +46,24 @@ describe('BookListComponent', () => {
       expect(titleElement?.textContent).toBe('Book list');
     });
 
-    it('renders list of 3 books', () => {
+    it('renders list of 3 books', fakeAsync(() => {
+      // when
       fixture.detectChanges();
-
-      const bookElements = nativeElement.querySelectorAll('li');
+      // then
+      let bookElements = nativeElement.querySelectorAll('li');
+      expect(bookElements).toBeTruthy();
+      expect(bookElements.length).toBe(0);
+      expect(spinnerServiceMock.show).toHaveBeenCalledTimes(1);
+      expect(spinnerServiceMock.hide).not.toHaveBeenCalled();
+      // when
+      tick(1000);
+      fixture.detectChanges();
+      // then
+      expect(spinnerServiceMock.hide).toHaveBeenCalled();
+      bookElements = nativeElement.querySelectorAll('li');
       expect(bookElements).toBeTruthy();
       expect(bookElements.length).toBe(3);
-    })
+    }));
   });
 
   describe('[class]', () => {
