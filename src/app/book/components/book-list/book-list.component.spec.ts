@@ -62,4 +62,23 @@ describe('BookListComponent', () => {
     expect(component.selectedBook).toBeFalsy();
   });
 
+  it('should save the book to the service and clear selected book once saveBook is called (mocked)', () => {
+    // given
+    const aBook = bookService.getAllBooks()[0];
+    component.selectBook(aBook);
+    spyOn(bookService, 'saveBook').and.callThrough();
+    // then
+    expect(component.selectedBook).toBeTruthy();
+    // when
+    const newBook: Book = {
+      id: aBook.id,
+      title: 'foo',
+      author: 'bar',
+      publishYear: 1900
+    };
+    component.saveBook(newBook);
+    // then
+    expect(bookService.saveBook).toHaveBeenCalledOnceWith(newBook);
+    expect(component.selectedBook).toBeFalsy();
+  });
 });
