@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Book} from "../../model/book";
 import {BookService} from "../../services/book.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-book-list',
@@ -12,20 +12,14 @@ export class BookListComponent implements OnDestroy {
 
   selectedBook: Book | undefined;
 
-  books: Book[] = [];
-
-  private readonly booksSubscription: Subscription;
+  readonly books$: Observable<Book[]>;
 
   constructor(private readonly bookService: BookService) {
     console.log('BookList component is created!');
-    this.booksSubscription = this.bookService.books$.subscribe(newBooks => {
-      console.log('new books has arrived!');
-      this.books = newBooks
-    });
+    this.books$ = this.bookService.books$;
   }
 
   ngOnDestroy(): void {
-    this.booksSubscription.unsubscribe();
   }
 
   selectBook(book: Book): void {
