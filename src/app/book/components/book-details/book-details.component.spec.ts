@@ -13,9 +13,24 @@ describe('BookDetailsComponent', () => {
     let nativeElement: HTMLElement;
     let aBook: Book;
 
+    // utility DOM functions
     const getNoBooksPanel = () => nativeElement.querySelector('#select-book-msg');
     const getBookEditorPanel = () => nativeElement.querySelector('#book-editor');
     const getInputById = (id: string) => nativeElement.querySelector(`#${id}`) as HTMLInputElement | null;
+    const cdr = () => fixture.detectChanges();
+    const setInputValue = (id: string, value: string) => {
+      const inputElement = getInputById(id);
+      if(inputElement) {
+        inputElement.value = value;
+        inputElement.dispatchEvent(new Event('input'));
+      }
+    };
+    const clickSave = () => {
+      const saveButton = nativeElement.querySelector("#save-button") as HTMLButtonElement | null;
+      if (saveButton) {
+        saveButton.click();
+      }
+    };
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -35,7 +50,7 @@ describe('BookDetailsComponent', () => {
       fixture = TestBed.createComponent(BookDetailsComponent);
       component = fixture.componentInstance;
       nativeElement = fixture.nativeElement;
-      fixture.detectChanges();
+      cdr();
     });
 
     it('should create', () => {
@@ -52,7 +67,7 @@ describe('BookDetailsComponent', () => {
 
       beforeEach(() => {
         component.book = aBook;
-        fixture.detectChanges();
+        cdr();
       });
 
       it('should display book editor, if book is selected', () => {
@@ -82,6 +97,19 @@ describe('BookDetailsComponent', () => {
         expect(titleInput?.value).toBe(aBook.title);
         expect(authorInput?.value).toBe(aBook.author);
         expect(yearInput?.value).toBe(`${aBook.publishYear}`);
+      });
+
+      it('should emit new value of a book once the book is edited and saved', async () => {
+        // given
+        let savedBook: Book | null = null;
+        component.saveClicked.subscribe((book) => savedBook = book);
+        // when
+        await fixture.whenStable();
+        setInputValue('title', 'new title');
+        clickSave();
+        // then
+        expect(savedBook).toBeTruthy();
+        expect(savedBook!).toEqual({ ...aBook, title: 'new title' });
       });
     });
   });
