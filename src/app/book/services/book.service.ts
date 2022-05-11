@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Book} from "../model/book";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -23,15 +24,21 @@ export class BookService {
     publishYear: 1970
   }];
 
+  private readonly booksSubject = new BehaviorSubject<Book[]>(this.books);
+
+  readonly books$: Observable<Book[]> = this.booksSubject;
+
   constructor() {
     console.log('BookService created!');
   }
 
   getAllBooks(): Book[] {
+    // lack of defensive copy!
     return this.books;
   }
 
   saveBook(book: Book): void {
     this.books = this.books.map(current => current.id === book.id ? book : current);
+    this.booksSubject.next(this.books);
   }
 }

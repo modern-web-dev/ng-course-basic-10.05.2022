@@ -15,7 +15,10 @@ export class BookListComponent {
 
   constructor(private readonly bookService: BookService) {
     console.log('BookList component is created!');
-    this.books = this.bookService.getAllBooks();
+    this.bookService.books$.subscribe(newBooks => {
+      console.log('new books has arrived!');
+      this.books = newBooks
+    });
   }
 
   selectBook(book: Book): void {
@@ -28,7 +31,6 @@ export class BookListComponent {
 
   saveBook(book: Book): void {
     this.bookService.saveBook(book);
-    this.books = this.bookService.getAllBooks();
     this.selectedBook = undefined;
   }
 }
