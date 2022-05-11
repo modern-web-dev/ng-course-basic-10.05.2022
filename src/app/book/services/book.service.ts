@@ -38,7 +38,7 @@ export class BookService {
   }
 
   saveBook(book: Book): void {
-    this.books = this.books.map(current => current.id === book.id ? book : current);
+    this.books = this.books.map(current => current.id === book.id ? {...book} : current);
     this.booksSubject.next(this.books);
   }
 }

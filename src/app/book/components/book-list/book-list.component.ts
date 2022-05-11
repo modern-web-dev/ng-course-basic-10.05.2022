@@ -11,7 +11,7 @@ import {SpinnerService} from "../../../shared/services/spinner.service";
 })
 export class BookListComponent implements OnDestroy {
 
-  selectedBook: Book | undefined;
+  selectedBook: Book | undefined = undefined;
 
   readonly books$: Observable<Book[]>;
 
@@ -28,7 +28,7 @@ export class BookListComponent implements OnDestroy {
   }
 
   selectBook(book: Book): void {
-    this.selectedBook = book;
+    this.selectedBook = { ...book };
   }
 
   cancel(): void {
