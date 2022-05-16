@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {Book} from "../../model/book";
 import {FormControl, FormGroup} from "@angular/forms";
 
@@ -7,7 +17,7 @@ import {FormControl, FormGroup} from "@angular/forms";
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.scss']
 })
-export class BookDetailsComponent {
+export class BookDetailsComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
   readonly bookFormGroup: FormGroup;
 
@@ -17,17 +27,7 @@ export class BookDetailsComponent {
   private readonly publishYear: FormControl;
 
   @Input()
-  get book() {
-    return this.internalBook;
-  }
-  set book(value: Book | undefined) {
-    this.internalBook = value !== undefined ? {...value} : undefined;
-    if (value) {
-      this.bookFormGroup.setValue(value);
-    }
-  }
-
-  private internalBook: Book | undefined;
+  book: Book | undefined;
 
   @Output()
   readonly saveClicked = new EventEmitter<Book>();
@@ -36,6 +36,7 @@ export class BookDetailsComponent {
   readonly cancelClicked = new EventEmitter();
 
   constructor() {
+    console.log('Component BookDetails constructed');
     this.title = new FormControl();
     this.author = new FormControl();
     this.publishYear = new FormControl();
@@ -47,6 +48,29 @@ export class BookDetailsComponent {
       author: this.author,
       publishYear: this.publishYear
     });
+  }
+
+  ngOnInit(): void {
+    console.log('Component BookDetails initialized!');
+  }
+
+  ngOnDestroy(): void {
+    console.log('Component BookDetails destroyed!');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('Component BookDetails onChanges');
+    console.log(changes);
+
+    const value = changes['book']; // check if there is a change for book input
+    if (value && value.currentValue) { // if changed into anything truthy
+      const _value = {...value.currentValue};
+      this.bookFormGroup.setValue(_value);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    console.log('Book Details after view init');
   }
 
   cancel(): void {
