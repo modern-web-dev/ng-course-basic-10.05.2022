@@ -4,6 +4,7 @@ import { BookDetailsComponent } from './components/book-details/book-details.com
 import { ReactiveFormsModule } from "@angular/forms";
 import { BookListComponent } from './components/book-list/book-list.component';
 import {BookService} from "./services/book.service";
+import {RouterModule} from "@angular/router";
 
 
 
@@ -18,7 +19,8 @@ import {BookService} from "./services/book.service";
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   providers: [
     BookService

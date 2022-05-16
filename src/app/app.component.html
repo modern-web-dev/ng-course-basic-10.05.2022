@@ -1,5 +1,8 @@
 <h1 class="m-3">Book store</h1>
-<app-book-list></app-book-list>
+
+<div class="router-outlet-wrapper">
+  <router-outlet></router-outlet>
+</div>
 
 <div *ngIf="showSpinner$ | async" class="text-center">
   <div class="spinner-border" role="status">
