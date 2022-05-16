@@ -30,6 +30,11 @@ export class BookService {
     console.log('BookService created!');
   }
 
+  getBookById(id: number): Book | undefined {
+    const bookIndex = this.books.findIndex(book => book.id === id);
+    return bookIndex >= 0 ? this.books[bookIndex] : undefined;
+  }
+
   getAllBooks(): Book[] {
     // lack of defensive copy!
     return this.books;

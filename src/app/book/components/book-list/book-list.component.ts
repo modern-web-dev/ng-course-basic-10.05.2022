@@ -45,9 +45,8 @@ export class BookListComponent implements OnDestroy {
 
   async selectBook(book: Book) {
     this.selectedBook = { ...book };
-    await this.router.navigate(['edit'], {
-      relativeTo: this.activatedRoute,
-      state: { book: this.selectedBook }
+    await this.router.navigate([book.id], {
+      relativeTo: this.activatedRoute
     });
   }
 
