@@ -16,9 +16,9 @@ export class EditBookComponent implements OnInit {
     private readonly bookService: BookService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute) {
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state && state['book']) {
-      this.selectedBook = state['book'];
+    const book = this.activatedRoute.snapshot.data['book'];
+    if (book) {
+      this.selectedBook = book;
     } else {
       // there is no book in the state, maybe we should navigate back
       this.goBack();
