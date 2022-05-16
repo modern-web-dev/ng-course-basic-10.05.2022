@@ -3,6 +3,7 @@ import {Book} from "../../model/book";
 import {BookService} from "../../services/book.service";
 import {delay, Observable, tap} from "rxjs";
 import {SpinnerService} from "../../../shared/services/spinner.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-book-list',
@@ -15,7 +16,12 @@ export class BookListComponent implements OnDestroy {
 
   readonly books$: Observable<Book[]>;
 
-  constructor(private readonly bookService: BookService, private readonly spinnerService: SpinnerService) {
+  constructor(
+    private readonly bookService: BookService,
+    private readonly spinnerService: SpinnerService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
+    ) {
     console.log('BookList component is created!');
     this.books$ = this.bookService.books$.pipe(
       delay(0),
@@ -37,8 +43,12 @@ export class BookListComponent implements OnDestroy {
   ngOnDestroy(): void {
   }
 
-  selectBook(book: Book): void {
+  async selectBook(book: Book) {
     this.selectedBook = { ...book };
+    await this.router.navigate(['edit'], {
+      relativeTo: this.activatedRoute,
+      state: { book: this.selectedBook }
+    });
   }
 
   cancel(): void {

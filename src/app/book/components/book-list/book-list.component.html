@@ -7,11 +7,6 @@
       </li>
     </ul>
   </nav>
-  <app-book-details
-    [book]="selectedBook"
-    (saveClicked)="saveBook($event)"
-    (cancelClicked)="cancel()" class="flex-grow-1">
-  </app-book-details>
 </section>
 <p>
   <a [routerLink]="['..']">Go back to the starting page</a>
