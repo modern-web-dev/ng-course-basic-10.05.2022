@@ -9,7 +9,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {Book} from "../../model/book";
+import {Book} from "../../../model/book";
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 
 const myValidator: ValidatorFn = (control: AbstractControl) => {

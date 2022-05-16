@@ -3,7 +3,7 @@ import {SpinnerService} from "../../../shared/services/spinner.service";
 import {BookService} from "../../services/book.service";
 import {Book} from "../../model/book";
 import {ComponentFixture, fakeAsync, TestBed, tick} from "@angular/core/testing";
-import {BookDetailsComponent} from "../book-details/book-details.component";
+import {BookDetailsComponent} from "../edit-book/book-details/book-details.component";
 
 describe('BookListComponent', () => {
   let component: BookListComponent;
