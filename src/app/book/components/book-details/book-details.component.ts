@@ -10,7 +10,19 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {Book} from "../../model/book";
-import {FormControl, FormGroup} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+
+const myValidator: ValidatorFn = (control: AbstractControl) => {
+  const yearFC = control.get('publishYear') as FormControl;
+  const authorFC = control.get('author') as FormControl;
+  console.log(`${yearFC.value} - ${authorFC.value}`);
+  if (authorFC.value.length > 5 && Number.parseInt(yearFC.value) < 2000) {
+    return {
+      invalidYear: 'For longer authors we need at least Y2000'
+    }
+  }
+  return null;
+};
 
 @Component({
   selector: 'app-book-details',
@@ -37,9 +49,19 @@ export class BookDetailsComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   constructor() {
     console.log('Component BookDetails constructed');
-    this.title = new FormControl();
-    this.author = new FormControl();
-    this.publishYear = new FormControl();
+    this.title = new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(30)]);
+    this.author = new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(40)]);
+    this.publishYear = new FormControl('', [
+      Validators.required,
+      Validators.min(1800),
+      Validators.max(2023)
+    ]);
     this.id = new FormControl();
 
     this.bookFormGroup = new FormGroup({
@@ -47,7 +69,8 @@ export class BookDetailsComponent implements OnInit, OnDestroy, AfterViewInit, O
       title: this.title,
       author: this.author,
       publishYear: this.publishYear
-    });
+    }//, [myValidator]
+    );
   }
 
   ngOnInit(): void {
@@ -65,7 +88,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy, AfterViewInit, O
     const value = changes['book']; // check if there is a change for book input
     if (value && value.currentValue) { // if changed into anything truthy
       const _value = {...value.currentValue};
-      this.bookFormGroup.setValue(_value);
+      this.bookFormGroup.reset(_value);
     }
   }
 

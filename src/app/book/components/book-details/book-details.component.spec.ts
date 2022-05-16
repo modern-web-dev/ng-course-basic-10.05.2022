@@ -97,6 +97,7 @@ describe('BookDetailsComponent', () => {
         // when
         await fixture.whenStable();
         setInputValue('title', 'new title');
+        cdr();
         clickSave();
         // then
         expect(savedBook).toBeTruthy();
