@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Book} from "../../model/book";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {BookService} from "../../services/book.service";
 
 @Component({
   selector: 'app-edit-book',
@@ -11,21 +12,36 @@ export class EditBookComponent implements OnInit {
 
   selectedBook: Book | undefined = undefined;
 
-  constructor(private readonly router: Router) {
+  constructor(
+    private readonly bookService: BookService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute) {
     const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state) {
+    if (state && state['book']) {
       this.selectedBook = state['book'];
+    } else {
+      // there is no book in the state, maybe we should navigate back
+      this.goBack();
     }
   }
 
   ngOnInit(): void {
   }
 
-  saveBook(book: Book): void {
-
+  saveBook(book: Book) {
+    this.bookService.saveBook(book);
+    this.goBack();
   }
 
-  cancel(): void {
+  cancel() {
+    this.goBack();
+  }
 
+  private goBack() {
+    this.router.navigate(['..'], { relativeTo: this.activatedRoute }).then(success => {
+      if(!success) {
+        console.log('navigation failed');
+      }
+    });
   }
 }
