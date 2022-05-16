@@ -2,7 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {BookDetailsComponent} from './book-details.component';
 import {Book} from "../../model/book";
-import {FormsModule} from "@angular/forms";
+import { ReactiveFormsModule} from "@angular/forms";
+import {SimpleChange} from "@angular/core";
 
 describe('BookDetailsComponent', () => {
 
@@ -35,7 +36,7 @@ describe('BookDetailsComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [BookDetailsComponent],
-        imports: [FormsModule]
+        imports: [ReactiveFormsModule]
       })
         .compileComponents();
     });
@@ -67,6 +68,7 @@ describe('BookDetailsComponent', () => {
 
       beforeEach(() => {
         component.book = aBook;
+        component.ngOnChanges({ book: new SimpleChange(undefined, aBook, true)});
         cdr();
       });
 
@@ -77,18 +79,7 @@ describe('BookDetailsComponent', () => {
         expect(selectBookElement).toBeFalsy();
       });
 
-      it('should populate form fields with book data (then/done)', (done) => {
-        fixture.whenStable().then(() => {
-          const titleInput = getInputById('title');
-          expect(titleInput).toBeTruthy();
-          expect(titleInput?.value).toBe(aBook.title);
-          done();
-        });
-      });
-
-      it('should populate form fields with book data (async/await)', async () => {
-        // when
-        await fixture.whenStable();
+      it('should populate form fields with book data', () => {
         // then
         const titleInput = getInputById('title');
         const authorInput = getInputById('author');

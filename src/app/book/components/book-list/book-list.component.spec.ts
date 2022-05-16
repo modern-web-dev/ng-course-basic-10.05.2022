@@ -53,6 +53,7 @@ describe('BookListComponent', () => {
       let bookElements = nativeElement.querySelectorAll('li');
       expect(bookElements).toBeTruthy();
       expect(bookElements.length).toBe(0);
+      tick();
       expect(spinnerServiceMock.show).toHaveBeenCalledTimes(1);
       expect(spinnerServiceMock.hide).not.toHaveBeenCalled();
       // when
