@@ -3,7 +3,7 @@ import {Book} from "../model/book";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 
-const URL_PREFIX = 'http://localhost:3000/books';
+const URL_PREFIX = '/api/books';
 
 @Injectable()
 export class BookService {
