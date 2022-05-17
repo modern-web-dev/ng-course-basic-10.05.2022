@@ -29,8 +29,12 @@ export class EditBookComponent implements OnInit {
   }
 
   saveBook(book: Book) {
-    this.bookService.saveBook(book);
-    this.goBack();
+    this.bookService.saveBook(book).subscribe(
+      book => {
+        console.log(book);
+        this.goBack();
+      }
+    );
   }
 
   cancel() {

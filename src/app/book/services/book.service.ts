@@ -1,47 +1,26 @@
 import { Injectable } from '@angular/core';
 import {Book} from "../model/book";
-import {BehaviorSubject, Observable} from "rxjs";
+import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+
+const URL_PREFIX = 'http://localhost:3000/books';
 
 @Injectable()
 export class BookService {
 
-  private books: Book[] = [{
-    id: 1,
-    title: 'Solaris',
-    author: 'Stanislaw Lem',
-    publishYear: 1960
-  }, {
-    id: 2,
-    title: '2001: A Space Odyssey',
-    author: 'Arthur C. Clarke',
-    publishYear: 1968
-  }, {
-    id: 3,
-    title: 'Bladerunner',
-    author: 'Philip K. Dick',
-    publishYear: 1970
-  }];
-
-  private readonly booksSubject = new BehaviorSubject<Book[]>(this.books);
-
-  readonly books$: Observable<Book[]> = this.booksSubject;
-
-  constructor() {
+  constructor(private readonly http: HttpClient) {
     console.log('BookService created!');
   }
 
-  getBookById(id: number): Book | undefined {
-    const bookIndex = this.books.findIndex(book => book.id === id);
-    return bookIndex >= 0 ? this.books[bookIndex] : undefined;
+  getBookById(id: number): Observable<Book> {
+    return this.http.get<Book>(`${URL_PREFIX}/${id}`);
   }
 
-  getAllBooks(): Book[] {
-    // lack of defensive copy!
-    return this.books;
+  getAllBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(URL_PREFIX);
   }
 
-  saveBook(book: Book): void {
-    this.books = this.books.map(current => current.id === book.id ? {...book} : current);
-    this.booksSubject.next(this.books);
+  saveBook(book: Book): Observable<Book> {
+    return this.http.put<Book>(`${URL_PREFIX}/${book.id}`, book);
   }
 }

@@ -6,6 +6,7 @@ import { BookListComponent } from './components/book-list/book-list.component';
 import {BookService} from "./services/book.service";
 import {RouterModule} from "@angular/router";
 import { EditBookComponent } from './components/edit-book/edit-book.component';
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -22,7 +23,8 @@ import { EditBookComponent } from './components/edit-book/edit-book.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   providers: [
     BookService
