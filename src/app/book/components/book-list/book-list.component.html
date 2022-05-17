@@ -1,6 +1,10 @@
 <section class="m-3 d-flex flex-row gap-5">
   <nav>
     <h3 id="book-list-title">Book list</h3>
+    <div class="mb-3">
+      <label for="search" class="form-label">Search</label>
+      <input type="text" id="search" class="form-control" [formControl]="searchFormControl">
+    </div>
     <ul>
       <li *ngFor="let book of books">
         <button (click)="selectBook(book)" class="btn btn-link">{{ book.title }} (<em>{{ book.author}}</em>)</button>
