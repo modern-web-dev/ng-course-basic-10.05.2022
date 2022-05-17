@@ -1,9 +1,10 @@
 import { BookListComponent } from './book-list.component';
 import {ComponentFixture, fakeAsync, TestBed, tick} from "@angular/core/testing";
 import {BookDetailsComponent} from "../edit-book/book-details/book-details.component";
-import {RouterTestingModule} from "@angular/router/testing";
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Book} from "../../model/book";
+import {BookService} from "../../services/book.service";
+import {ReactiveFormsModule} from "@angular/forms";
 
 describe('BookListComponent', () => {
   let component: BookListComponent;
@@ -14,7 +15,23 @@ describe('BookListComponent', () => {
     let nativeElement: HTMLElement;
     let routerMock: any;
     let activatedRouteMock: any;
+    let bookServiceMock: any;
     let listOfBooks: Book[];
+
+    // utility functions
+    const getInputById = (id: string) => nativeElement.querySelector(`#${id}`) as HTMLInputElement | null;
+    const cdr = () => fixture.detectChanges();
+    const setInputValue = (id: string, value: string) => {
+      const inputElement = getInputById(id);
+      if(inputElement) {
+        inputElement.value = value;
+        inputElement.dispatchEvent(new Event('input'));
+        inputElement.dispatchEvent(new Event('change'))
+      } else {
+        console.log('no input');
+      }
+    };
+
 
     beforeEach(async () => {
 
@@ -33,13 +50,17 @@ describe('BookListComponent', () => {
           }
         }
       };
+      bookServiceMock = {
+        findBooks: jasmine.createSpy()
+      };
 
       await TestBed.configureTestingModule({
         declarations: [BookListComponent, BookDetailsComponent],
-        imports: [],
+        imports: [ReactiveFormsModule],
         providers: [
           { provide: Router, useValue: routerMock },
-          { provide: ActivatedRoute, useValue: activatedRouteMock }
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: BookService, useValue: bookServiceMock }
         ]
       }).compileComponents();
     });
@@ -62,11 +83,26 @@ describe('BookListComponent', () => {
 
     it('renders list of 3 books', () => {
       // when
-      fixture.detectChanges();
+      cdr();
       let bookElements = nativeElement.querySelectorAll('li');
       // then
       expect(bookElements).toBeTruthy();
       expect(bookElements.length).toBe(3);
-    })
+    });
+
+    fit('should query for books', fakeAsync(() => {
+      // given
+      const expectedBooks = [listOfBooks[0]];
+      bookServiceMock.findBooks.and.returnValue(expectedBooks);
+      // when
+      setInputValue('search', 'lem');
+      tick(500);
+      cdr();
+      // then
+      let bookElements = nativeElement.querySelectorAll('li');
+      expect(bookElements).toBeTruthy();
+      expect(bookServiceMock.findBooks).toHaveBeenCalledOnceWith('lem');
+      expect(bookElements.length).toBe(1);
+    }));
   });
 });
